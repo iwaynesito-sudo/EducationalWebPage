@@ -1,0 +1,259 @@
+/* ============================================
+   SIDEBAR - SLEEK DARK NAVIGATION WITH LOCKS
+   ============================================ */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem 1.25rem 2rem;
+  color: var(--color-text-secondary);
+}
+
+/* ─── Brand Section ─── */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-sidebar-border);
+}
+
+.brand-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.2));
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  border-radius: var(--radius-md);
+  color: var(--color-primary-light);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-platform {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--color-primary-light);
+}
+
+.brand-text h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+/* ─── Stages List ─── */
+.stages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.stage-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  transition: opacity 0.2s ease;
+}
+
+.stage-group.stage-locked {
+  opacity: 0.6;
+}
+
+.stage-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0 0.5rem;
+}
+
+.stage-tag-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stage-num-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--color-primary-light);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  font-family: var(--font-mono);
+}
+
+.stage-subtitle {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex: 1;
+}
+
+.stage-status-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  letter-spacing: 0.03em;
+}
+
+.status-locked {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text-dim);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.status-active {
+  background: rgba(6, 182, 212, 0.12);
+  color: var(--color-cyan);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+}
+
+.status-completed {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--color-success);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.stage-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Lessons List ─── */
+.lessons-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.lesson-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.lesson-btn:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+.lesson-btn.active {
+  background: linear-gradient(90deg, rgba(99, 102, 241, 0.16) 0%, rgba(99, 102, 241, 0.04) 100%);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.15);
+}
+
+.lesson-btn.completed {
+  color: #cbd5e1;
+}
+
+.lesson-btn.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.lesson-btn.locked:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+/* ─── Status Icons ─── */
+.lesson-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.icon-completed {
+  color: var(--color-success);
+}
+
+.icon-locked {
+  color: var(--color-text-dim);
+}
+
+.icon-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-text-dim);
+  transition: all 0.2s ease;
+}
+
+.lesson-btn:hover:not(.disabled) .icon-dot {
+  background-color: var(--color-primary-light);
+  transform: scale(1.2);
+}
+
+.lesson-btn.active .icon-dot {
+  background-color: var(--color-primary-light);
+  box-shadow: 0 0 8px var(--color-primary);
+}
+
+.lesson-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.35;
+}
+
+.lock-indicator-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.1rem 0.35rem;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.lesson-active-indicator {
+  position: absolute;
+  right: 6px;
+  width: 4px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  box-shadow: 0 0 8px var(--color-primary);
+}
