@@ -5,22 +5,26 @@ import { useLocalStorage } from './hooks/useLocalStorage.js'
 import Sidebar from './components/sidebar/Sidebar.jsx'
 import LessonView from './components/LessonView/LessonView.jsx'
 import ProgressBar from './components/ProgressBar/ProgressBar.jsx'
+import VideoSection from './components/VideoSection/VideoSection.jsx'
 import './App.css'
 
 function App() {
   const [activeLessonId, setActiveLessonId] = useState('lesson-1')
+  const [currentView, setCurrentView] = useState('lessons') // 'lessons' | 'video'
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [unlockAll, setUnlockAll] = useState(false)
   const [progress] = useLocalStorage('englishProgress', { completedLessons: [] })
 
   const allLessons = useMemo(() => getAllLessons(), [])
   const completedLessons = Array.isArray(progress?.completedLessons) ? progress.completedLessons : []
 
-  // Una lección está desbloqueada si es la primera, o si la anterior ya fue completada y aprobada
+  // Una lección está desbloqueada si se activa el modo libre, si es la primera, o si la anterior fue aprobada
   const isLessonUnlocked = useCallback((lessonId) => {
+    if (unlockAll) return true
     const index = allLessons.findIndex((l) => l.id === lessonId)
     if (index <= 0) return true
     return completedLessons.includes(allLessons[index - 1]?.id)
-  }, [allLessons, completedLessons])
+  }, [allLessons, completedLessons, unlockAll])
 
   const getPrerequisiteLesson = useCallback((lessonId) => {
     const index = allLessons.findIndex((l) => l.id === lessonId)
@@ -38,6 +42,13 @@ function App() {
 
   const handleSelectLesson = useCallback((lessonId) => {
     setActiveLessonId(lessonId)
+    setCurrentView('lessons')
+    setSidebarOpen(false)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [])
+
+  const handleSelectView = useCallback((view) => {
+    setCurrentView(view)
     setSidebarOpen(false)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [])
@@ -76,6 +87,8 @@ function App() {
           completedLessons={completedLessons}
           isLessonUnlocked={isLessonUnlocked}
           onSelectLesson={handleSelectLesson}
+          activeView={currentView}
+          onSelectView={handleSelectView}
         />
       </aside>
 
@@ -90,19 +103,39 @@ function App() {
               <span className="brand-tag">LEARNING PATH</span>
               <h1>English Fluency Platform</h1>
             </div>
-            <div className="top-bar-stats">
-              <ProgressBar current={completedCount} total={totalLessons} />
+            <div className="top-bar-actions">
+              <button 
+                className={`btn-video-nav ${currentView === 'video' ? 'active' : ''}`}
+                onClick={() => handleSelectView('video')}
+                title="Ir a la sección de Video Presentación (Tarea)"
+              >
+                🎥 Video Presentación (10 Preguntas)
+              </button>
+              <button 
+                className={`btn-unlock-demo ${unlockAll ? 'active' : ''}`}
+                onClick={() => setUnlockAll(!unlockAll)}
+                title="Desbloquear todas las lecciones para presentación o video"
+              >
+                {unlockAll ? '🔓 Modo Libre Activo' : '🔒 Desbloquear Todo (Demo)'}
+              </button>
+              <div className="top-bar-stats">
+                <ProgressBar current={completedCount} total={totalLessons} />
+              </div>
             </div>
           </header>
 
-          <LessonView 
-            lesson={activeLesson} 
-            isUnlocked={isCurrentLessonUnlocked}
-            prerequisiteLesson={prerequisiteLesson}
-            onSelectLesson={handleSelectLesson}
-            onNextLesson={getNextLessonId(activeLesson.id) ? handleNextLesson : null}
-            hasNextLesson={Boolean(getNextLessonId(activeLesson.id))}
-          />
+          {currentView === 'video' ? (
+            <VideoSection onBackToLessons={() => handleSelectView('lessons')} />
+          ) : (
+            <LessonView 
+              lesson={activeLesson} 
+              isUnlocked={isCurrentLessonUnlocked}
+              prerequisiteLesson={prerequisiteLesson}
+              onSelectLesson={handleSelectLesson}
+              onNextLesson={getNextLessonId(activeLesson.id) ? handleNextLesson : null}
+              hasNextLesson={Boolean(getNextLessonId(activeLesson.id))}
+            />
+          )}
         </div>
       </main>
     </div>

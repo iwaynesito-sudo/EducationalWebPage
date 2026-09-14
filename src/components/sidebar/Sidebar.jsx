@@ -12,7 +12,9 @@ const Sidebar = ({
   activeLessonId, 
   completedLessons = [], 
   isLessonUnlocked, 
-  onSelectLesson 
+  onSelectLesson,
+  activeView = 'lessons',
+  onSelectView
 }) => {
   return (
     <nav className="sidebar" aria-label="Navegación del curso">
@@ -24,6 +26,21 @@ const Sidebar = ({
           <span className="brand-platform">ENGLISH MASTERY</span>
           <h2>Fluency Track</h2>
         </div>
+      </div>
+
+      <div className="sidebar-special-nav">
+        <button
+          className={`special-nav-btn ${activeView === 'video' ? 'active' : ''}`}
+          onClick={() => onSelectView && onSelectView('video')}
+          title="Ver sección de Video Presentación y las 10 preguntas"
+        >
+          <span className="special-nav-icon">🎥</span>
+          <div className="special-nav-info">
+            <span className="special-nav-badge">EVIDENCIA TAREA</span>
+            <span className="special-nav-title">Video Presentación</span>
+            <span className="special-nav-desc">10 Preguntas First Conditional</span>
+          </div>
+        </button>
       </div>
 
       <div className="stages-list">
